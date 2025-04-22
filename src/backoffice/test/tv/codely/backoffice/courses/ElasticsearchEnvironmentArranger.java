@@ -9,6 +9,7 @@ import tv.codely.shared.infrastructure.elasticsearch.ElasticsearchClient;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 @Service
 public final class ElasticsearchEnvironmentArranger {
@@ -24,6 +25,7 @@ public final class ElasticsearchEnvironmentArranger {
     }
 
     public void arrange(String contextName, String index) throws IOException {
+		logger.info("Deleting index: " + index);
         client.delete(index);
 
         Resource[] jsonsIndexes = resourceResolver.getResources(
@@ -37,6 +39,8 @@ public final class ElasticsearchEnvironmentArranger {
                 jsonIndex.getInputStream(),
                 "UTF-8"
             ).useDelimiter("\\A").next();
+
+			logger.info("Creating index: " + indexName);
 
             Request request = new Request("PUT", indexName);
             request.setJsonEntity(indexBody);
