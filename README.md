@@ -62,3 +62,7 @@ Here you have the [course on CodelyTV Pro where we explain step by step all this
 * ⚡ [Scala Basic example (g8 template)](https://github.com/CodelyTV/scala-basic-example.g8)
 * ⚛ [Scala Examples](https://github.com/CodelyTV/scala-examples)
 * 🥦 [Scala DDD Example](https://github.com/CodelyTV/scala-ddd-example)
+
+
+###Automated CI setup
+view the .github/workflows/ci.yml
