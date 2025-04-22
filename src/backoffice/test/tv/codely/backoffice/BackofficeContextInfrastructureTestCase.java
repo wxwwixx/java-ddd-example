@@ -22,3 +22,4 @@ public abstract class BackofficeContextInfrastructureTestCase extends Infrastruc
         elasticsearchArranger.arrange("backoffice", "backoffice_courses");
     }
 }
+//Add the logging function
