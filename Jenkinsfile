@@ -1,20 +1,22 @@
 pipeline {
     agent any
-
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/anmelody/java-ddd-example', branch: 'main'
+                echo "Checking out the code"
+                checkout scm
             }
         }
         stage('Build') {
             steps {
-                bat 'build.bat'
+                echo "Running Gradle build"
+                bat './gradlew clean build'  // Use Gradle wrapper or installed Gradle
             }
         }
         stage('Test') {
             steps {
-                sh './gradlew test'
+                echo "Running Gradle tests"
+                bat './gradlew test'
             }
         }
     }
