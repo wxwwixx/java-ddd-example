@@ -1,9 +1,8 @@
 pipeline {
     agent any
     environment {
-        // Set JAVA_HOME to the JDK 22 installation configured in Jenkins
-        JAVA_HOME = tool name: 'JDK22', type: 'JDK'
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"  // Add JDK to PATH
+        JAVA_HOME = tool name: 'JDK22', type: 'JDK'  // Using the JDK name configured in Jenkins
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"  // Ensure the JDK is added to the PATH
     }
     stages {
         stage('Checkout') {
@@ -15,13 +14,13 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Running Gradle build"
-                bat './gradlew clean build'  // Ensure gradlew is executable or use 'gradle' if installed globally
+                bat './gradlew clean build'  // Gradle build command
             }
         }
         stage('Test') {
             steps {
                 echo "Running Gradle tests"
-                bat './gradlew test'
+                bat './gradlew test'  // Gradle test command
             }
         }
     }
