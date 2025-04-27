@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        JAVA_HOME = tool name: 'JDK22', type: 'JDK'  // Using the JDK name configured in Jenkins
+        JAVA_HOME = tool name: 'JDK17', type: 'JDK'  // Using the JDK name configured in Jenkins
         PATH = "${JAVA_HOME}/bin:${env.PATH}"  // Ensure the JDK is added to the PATH
     }
     stages {
