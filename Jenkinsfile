@@ -1,26 +1,24 @@
 pipeline {
     agent any
-    environment {
-        JAVA_HOME = tool name: 'JDK17', type: 'JDK'  // Using the JDK name configured in Jenkins
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"  // Ensure the JDK is added to the PATH
-    }
     stages {
-        stage('Checkout') {
+        stage('Build with JDK 17') {
+            environment {
+                JAVA_HOME = tool name: 'JDK17', type: 'JDK'  // JDK 17 for this stage
+                PATH = "${JAVA_HOME}/bin:${env.PATH}"
+            }
             steps {
-                echo "Checking out the code"
-                checkout scm
+                echo "Building with JDK 17"
+                bat './gradlew clean build'  // Use your build command
             }
         }
-        stage('Build') {
-            steps {
-                echo "Running Gradle build"
-                bat './gradlew clean build'  // Gradle build command
+        stage('Build with JDK 22') {
+            environment {
+                JAVA_HOME = tool name: 'JDK22', type: 'JDK'  // JDK 22 for this stage
+                PATH = "${JAVA_HOME}/bin:${env.PATH}"
             }
-        }
-        stage('Test') {
             steps {
-                echo "Running Gradle tests"
-                bat './gradlew test'  // Gradle test command
+                echo "Building with JDK 22"
+                bat './gradlew clean build'  // Use your build command
             }
         }
     }
