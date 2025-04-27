@@ -8,6 +8,7 @@ pipeline {
             }
             steps {
                 echo "Building with JDK 17"
+                bat 'java -version'  // Verify JDK version
                 bat './gradlew clean build'  // Use your build command
             }
         }
@@ -18,6 +19,7 @@ pipeline {
             }
             steps {
                 echo "Building with JDK 22"
+                bat 'java -version'  // Verify JDK version
                 bat './gradlew clean build'  // Use your build command
             }
         }
