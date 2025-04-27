@@ -1,31 +1,40 @@
-name: CI
+name: Java DDD Example CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: 🐳 Start all the environment
-        run: make start
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'  # Changed from 'adopt' (Temurin is the new standard)
+        java-version: '21'
+        cache: 'gradle'  # Added caching for faster builds
 
-      - name: 🔦 Lint
-        run: make lint
+    - name: Verify code formatting
+      run: ./gradlew spotlessCheck  # Catch formatting issues early
 
-      - name: 🦭 Wait for the environment to get up
-        run: |
-          while ! make ping-mysql &>/dev/null; do
-              echo "Waiting for database connection..."
-              sleep 2
-          done
+    - name: Build with Gradle
+      run: |
+        ./gradlew clean build -x test || (cat build/reports/build-report.txt && exit 1)
+      
+    - name: Run tests
+      if: success()  # Only run tests if build succeeds
+      run: ./gradlew test
 
-      - name: ✅ Run the tests
-        run: make test
+    - name: Upload build artifacts
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: build/libs/**
+        retention-days: 7
